@@ -3,6 +3,9 @@ package com.revature.models;
 import java.util.List;
 import java.util.Scanner;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.revature.daos.CourseDao;
 import com.revature.daos.RegDao;
 import com.revature.daos.StudentDao;
@@ -16,6 +19,7 @@ public class Menu {
 
 		boolean displayMenu = true; // this toggles whether the menu continues after user input
 		Scanner scan = new Scanner(System.in); // Scanner object to parse user input
+		final Logger log = LogManager.getLogger(Menu.class);
 
 		// greeting
 		System.out.println("*====================================================*");
@@ -42,12 +46,14 @@ public class Menu {
 			switch (input) {
 
 			case "students": {
+				log.info("User selected students");
 				System.out.println("Gathering all students...");
 
 				List<Student> students = sd.getStudents();
 
 				for (Student s : students) {
-					System.out.println(s);
+					// System.out.println(s.getStudent_id() + "");
+					System.out.println(s.getStudent_id() + ") " + s.getF_name() + " " + s.getL_name());
 				}
 
 				break;
@@ -57,17 +63,18 @@ public class Menu {
 				List<Student> students = sd.getStudents();
 
 				for (Student s : students) {
-					System.out.println(s);
+					System.out.println(s.getStudent_id() + ") " + s.getF_name() + " " + s.getL_name());
 				}
 				System.out.println("-----------------------------------------------------");
 
 				System.out.println("Enter the ID of the student who's registering");
 				int idInput = scan.nextInt(); // the user enters the ID of the student to scan.nextline
 				scan.nextLine();
+				log.warn("Student registered for a class!");
 
 				List<Course> courses = cd.getCourses();
 				for (Course c : courses) {
-					System.out.println(c);
+					System.out.println(c.getCourse_id() + ") " + c.getCourse_title() + " " + c.getCourse_credits());
 				}
 				System.out.println("-----------------------------------------------------");
 				String currentStudent = Integer.toString(idInput);
@@ -78,6 +85,22 @@ public class Menu {
 				rd.register(courseInput, idInput);
 				break;
 			}
+			case "schedule": {
+				List<Student> students = sd.getStudents();
+
+				for (Student s : students) {
+					System.out.println(s.getStudent_id() + ") " + s.getF_name() + " " + s.getL_name());
+				}
+				System.out.println("-----------------------------------------------------");
+
+				System.out.println("Enter the ID for their Schedule");
+				int idInput = scan.nextInt();
+				scan.nextLine();
+
+				rd.schedule(idInput);
+
+				break;
+			}
 			case "exit": {
 				System.out.println("byeeee");
 				displayMenu = false;
@@ -85,7 +108,7 @@ public class Menu {
 			}
 
 			default: {
-				System.out.println("Didn't catch that... try again"); // in case user input doesn't match any cases
+				System.out.println("Nah Nah Nah"); // in case user input doesn't match any cases
 				break;
 			}
 

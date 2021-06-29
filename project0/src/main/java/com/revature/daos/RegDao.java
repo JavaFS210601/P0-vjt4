@@ -2,8 +2,13 @@ package com.revature.daos;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.revature.models.Course;
 import com.revature.utils.ConnectionUtil;
 
 public class RegDao implements RegDaoInterface {
@@ -47,7 +52,37 @@ public class RegDao implements RegDaoInterface {
 	public void schedule(int studentId) {
 		// TODO Auto-generated method stub
 		try (Connection conn = ConnectionUtil.getConnection()) {
-			String sql = "SELECT * FROM courses INNER JOIN registration ON registration.course_id = courses.course_id AND registration.student_id = VALUES(?) \r\n;";
+
+			ResultSet rs = null;
+
+			String sql = "SELECT * FROM courses INNER JOIN registration ON registration.course_id = courses.course_id AND registration.student_id = 7;";
+
+			// PreparedStatement ps = conn.prepareStatement(sql);
+
+			Statement s = conn.createStatement();
+
+			// ps.setInt(1, studentId);
+
+			rs = s.executeQuery(sql);
+
+			List<Course> courseList = new ArrayList<>();
+
+			while (rs.next()) { // while there are results left in the ResultSet (rs)
+
+				// Create a new Course Object from each returned record
+				// This is the Course Class's all args constructor
+				// And we're filling it with each column of the Course record
+				Course course = new Course(rs.getInt("course_id"), rs.getString("course_title"),
+						rs.getInt("course_credits"));
+
+				// add the newly created Course object into the ArrayList of Courses
+				courseList.add(course);
+
+				for (Course c : courseList) {
+					System.out.println(c.getCourse_id() + ") " + c.getCourse_title() + " " + c.getCourse_credits());
+				}
+
+			}
 
 		} catch (SQLException r) {
 			System.out.println("schedule failed!");
