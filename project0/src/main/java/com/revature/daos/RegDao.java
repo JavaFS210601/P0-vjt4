@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,15 +54,17 @@ public class RegDao implements RegDaoInterface {
 
 			ResultSet rs = null;
 
-			String sql = "SELECT * FROM courses INNER JOIN registration ON registration.course_id = courses.course_id AND registration.student_id = 7;";
+			String sql = "SELECT DISTINCT * FROM courses INNER JOIN registration ON registration.course_id = courses.course_id AND registration.student_id = ?;";
 
-			// PreparedStatement ps = conn.prepareStatement(sql);
+			PreparedStatement ps = conn.prepareStatement(sql);
 
-			Statement s = conn.createStatement();
+			// Statement s = conn.createStatement();
 
-			// ps.setInt(1, studentId);
+			ps.setInt(1, studentId);
 
-			rs = s.executeQuery(sql);
+			rs = ps.executeQuery();
+
+			// ps.executeUpdate();
 
 			List<Course> courseList = new ArrayList<>();
 
@@ -77,10 +78,17 @@ public class RegDao implements RegDaoInterface {
 
 				// add the newly created Course object into the ArrayList of Courses
 				courseList.add(course);
+				System.out.println("Classes this semester: " + courseList.size());
+				// if (rs.next()) {
+				// System.out.println("not Registered for any classes!");
+				// }
 
 				for (Course c : courseList) {
-					System.out.println(c.getCourse_id() + ") " + c.getCourse_title() + " " + c.getCourse_credits());
+					System.out.println(c.getCourse_title() + ": " + c.getCourse_credits() + " Credits");
 				}
+				// System.out.println("course list size: " + courseList.size());
+				// if (courseList.size() == 0) {
+				// System.out.println("not Registered for any classes!");
 
 			}
 

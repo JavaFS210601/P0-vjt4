@@ -9,4 +9,7 @@ import com.revature.models.Student;
 public interface StudentDaoInterface {
 
 	public List<Student> getStudents(); // return a List of all employees
+
+	public void addStudent(Student stu);
+
 }

@@ -2,3 +2,6 @@
 2021-06-28 19:29:11 INFO  Menu:49 - User selected students
 2021-06-28 19:31:31 WARN  Menu:73 - Student registered for a class!
 2021-06-28 19:38:26 INFO  Menu:49 - User selected students
+2021-06-29 10:55:25 INFO  Menu:50 - User selected students
+2021-06-29 10:55:47 WARN  Menu:74 - Student registered for a class!
+2021-06-29 21:12:10 WARN  Menu:74 - Student registered for a class!

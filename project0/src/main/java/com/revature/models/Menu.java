@@ -34,10 +34,11 @@ public class Menu {
 			System.out.println("----------------");
 
 			// menu options
-			System.out.println("students -> show all students");
-			System.out.println("register -> register for a course");
-			System.out.println("schedule -> show a student's schedule");
-			System.out.println("exit -> exit the application");
+			System.out.println("students | show all students");
+			System.out.println("register | register for a course");
+			System.out.println("schedule | show a student's schedule");
+			System.out.println("add      | add a a student");
+			System.out.println("exit     | exit the application");
 
 			// parse the user input after they choose a menu option, and move to the next
 			// line
@@ -74,7 +75,8 @@ public class Menu {
 
 				List<Course> courses = cd.getCourses();
 				for (Course c : courses) {
-					System.out.println(c.getCourse_id() + ") " + c.getCourse_title() + " " + c.getCourse_credits());
+					System.out.println(
+							c.getCourse_id() + ") " + c.getCourse_title() + " " + c.getCourse_credits() + " Credits");
 				}
 				System.out.println("-----------------------------------------------------");
 				String currentStudent = Integer.toString(idInput);
@@ -86,6 +88,7 @@ public class Menu {
 				break;
 			}
 			case "schedule": {
+				log.info("schedule printed");
 				List<Student> students = sd.getStudents();
 
 				for (Student s : students) {
@@ -98,6 +101,20 @@ public class Menu {
 				scan.nextLine();
 
 				rd.schedule(idInput);
+
+				break;
+			}
+			case "add": {
+				log.info("User attempted to add student to database");
+				System.out.println("Enter Student First Name:");
+				String f_name = scan.nextLine();
+				System.out.println("Enter Student Last Name:");
+				String l_name = scan.nextLine();
+
+				// give all this info we creat a new Employee object
+				Student newStudent = new Student(f_name, l_name);
+
+				sd.addStudent(newStudent);
 
 				break;
 			}

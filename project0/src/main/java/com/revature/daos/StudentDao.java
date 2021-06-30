@@ -1,6 +1,7 @@
 package com.revature.daos;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -57,5 +58,23 @@ public class StudentDao implements StudentDaoInterface {
 
 		return null; // java will yell if we don't have this, cause the try isn't guaranteed to
 						// succeed
+	}
+
+	@Override
+	public void addStudent(Student stu) {
+		// TODO Auto-generated method stub
+		try (Connection conn = ConnectionUtil.getConnection()) {
+			String sql = "INSERT INTO students (f_name, l_name) VALUES (?,?);";
+
+			PreparedStatement ps = conn.prepareStatement(sql);
+
+			ps.setString(1, stu.getF_name());
+			ps.setString(2, stu.getL_name());
+
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("Add student failed!");
+			e.printStackTrace();
+		}
 	}
 }
